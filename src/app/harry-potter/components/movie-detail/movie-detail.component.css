@@ -1,0 +1,30 @@
+.movie-img {
+  width: 400px;
+  height: 400px;
+}
+
+.img-summary-block {
+  display: flex;
+}
+ th, td {
+   span {
+     color: #aaa;
+   }
+  border: 1px solid;
+}
+
+ .detail-table {
+   display: flex;
+   margin-top: 30px;
+ }
+
+.detail-label {
+  span {
+    text-align: center;
+    display: block;
+  }
+}
+
+.detail-wrapper {
+  margin-top: 40px;
+}

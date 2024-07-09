@@ -1,0 +1,59 @@
+<ng-template #isLoading>
+  <p>load movie detail ....</p>
+</ng-template>
+<ng-container *ngIf="!(movieDetailService.isLoading$ | async), else isLoading">
+  <div class="container detail-wrapper" *ngIf="(movieDetailService.movieDetail$ | async) as movieDetail">
+    <div class="img-summary-block container">
+      <div class="col-lg-1"></div>
+      <div class="">
+        <button class="button" routerLink="/movies">
+          <span class="icon-home"></span>Back
+        </button>
+        <h2>{{movieDetail?.title}}</h2>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    <div class="img-summary-block container">
+      <div class="col-lg-1"></div>
+      <div class="">
+        <img class="" src="{{movieDetail?.poster}}" alt="poster">
+      </div>
+      <span class=""><b>Summary:</b> {{movieDetail?.summary}}</span>
+      <div class="col-lg-1"></div>
+    </div>
+
+    <div class="container detail-label">
+      <span>Details</span>
+    </div>
+
+    <div class="detail-table container">
+      <div class="col-lg-1"></div>
+      <div class="">
+        <table>
+          <tr>
+            <th>Box office</th>
+            <td><span>{{ utils.transformBudget(movieDetail?.box_office)}}</span></td>
+          </tr>
+          <tr>
+            <th>Budget</th>
+            <td><span>{{ utils.transformBudget(movieDetail?.budget) }}</span></td>
+          </tr>
+          <tr>
+            <th>Duration</th>
+            <td><span>{{ utils.transformDuration(movieDetail?.duration) }}</span></td>
+          </tr>
+          <tr>
+            <th>Producers</th>
+            <td><span>{{ movieDetail?.producers }}</span></td>
+          </tr>
+          <tr>
+            <th>cinematographers</th>
+            <td><span>{{ movieDetail?.cinematographers }}</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+</ng-container>
+

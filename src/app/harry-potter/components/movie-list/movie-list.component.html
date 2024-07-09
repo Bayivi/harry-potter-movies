@@ -1,0 +1,37 @@
+
+<div class="container movie-list-wrapper">
+  <div>
+    <div class="filter">
+      <div>
+        <span>Title</span>
+        <input data-testId="title" type="text" [formControl]="filterByTitle" placeholder="">
+      </div>
+      <div>
+        <span>Release year</span>
+        <input data-testId="release-year" type="text" [formControl]="filterByReleaseYear" placeholder="">
+      </div>
+    </div>
+    <ng-template #isLoading>
+      <p>load movie list ...</p>
+    </ng-template>
+   <ng-container *ngIf="!(moviesListService.isLoading$ | async), else isLoading">
+     <ul class="movies-length">
+       @for (movie of filteredAvailableMovies$ | async ; track movie.id) {
+         <li>
+           <div class="row movie-list">
+             <div>
+               <p>{{movie.title}}</p>
+               <div class="wrapper">
+                 <p>Release date: {{movie.release_date}}</p>
+                 <p>Budget: {{utils.transformBudget(movie.budget)}}</p>
+                 <p>Duration: {{utils.transformDuration(movie.duration)}}</p>
+               </div>
+             </div>
+             <button data-e2e-btn-detail class="button" routerLink="{{movie.id}}">Detail</button>
+           </div>
+         </li>
+       }
+     </ul>
+   </ng-container>
+  </div>
+</div>
