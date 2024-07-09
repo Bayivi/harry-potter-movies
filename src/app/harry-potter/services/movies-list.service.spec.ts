@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { MoviesListService } from './movies-list.service';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs";
 
 describe('MoviesListService', () => {
   let service: MoviesListService;
+  let httpController: HttpTestingController;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let httpClientSpyObj = jasmine.createSpyObj('HttpClient', ['get']);
   const mockMovies = [
@@ -36,6 +37,7 @@ describe('MoviesListService', () => {
         {
           provide: MoviesListService, useValue: {
             getMoviesList$: of(),
+            isLoading$: of()
           }
         },
         {
@@ -46,6 +48,7 @@ describe('MoviesListService', () => {
     });
     service = TestBed.inject(MoviesListService);
     httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
+    httpController = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -60,5 +63,14 @@ describe('MoviesListService', () => {
         expect(movies.length).toEqual(mockMovies.length)
       });
     });
+
+    it('should check the http call by MoviesListService instance', () => {
+      expect(httpClientSpy.get).toHaveBeenCalledTimes(0)
+      const newInstance= new MoviesListService(httpClientSpy)
+      newInstance.getMoviesList$.subscribe(( movies) => {
+        expect(movies).toBeDefined();
+      })
+      expect(httpClientSpy.get).toHaveBeenCalledTimes(1)
+    })
   });
 });
